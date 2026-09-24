@@ -1,0 +1,58 @@
+{
+  "name": "mtd-desktop",
+  "version": "1.0.0",
+  "description": "MTD 挖矿检测 Windows 客户端",
+  "main": "src/main/index.js",
+  "author": "MTD Team",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dev": "set MTD_UI_URL=http://localhost:80&& electron .",
+    "prepare:resources": "powershell -ExecutionPolicy Bypass -File scripts/prepare-resources.ps1",
+    "pack": "electron-builder --dir",
+    "dist": "set ELECTRON_BUILDER_BINARIES_MIRROR=https://npmmirror.com/mirrors/electron-builder-binaries/&& electron-builder --win nsis"
+  },
+  "dependencies": {
+    "ssh2": "^1.16.0"
+  },
+  "devDependencies": {
+    "electron": "^31.7.7",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.mtd.desktop",
+    "productName": "MTD 挖矿检测系统",
+    "electronDist": "node_modules/electron/dist",
+    "asar": true,
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "src/**/*",
+      "build/icon.ico",
+      "build/icon.png",
+      "package.json"
+    ],
+    "extraResources": [
+      { "from": "resources/generated/backend", "to": "backend" },
+      { "from": "resources/generated/ui", "to": "ui" },
+      { "from": "resources/generated/runtime", "to": "runtime" },
+      { "from": "resources/generated/agent", "to": "agent" }
+    ],
+    "win": {
+      "icon": "build/icon.ico",
+      "signAndEditExecutable": false,
+      "target": [{ "target": "nsis", "arch": ["x64"] }],
+      "artifactName": "MTD-Setup-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "MTD 挖矿检测系统"
+    }
+  }
+}

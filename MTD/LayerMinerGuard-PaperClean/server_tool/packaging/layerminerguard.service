@@ -1,0 +1,13 @@
+[Unit]
+Description=LayerMinerGuard Manual Host-side Mining Evidence Chain Detector
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/layerminer
+ExecStart=/usr/bin/python3 /opt/layerminer/server_tool/bin/layerminerd.py --config /etc/layerminer/server.yaml
+Restart=no
+
+[Install]
+WantedBy=multi-user.target

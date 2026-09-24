@@ -1,0 +1,9 @@
+ __  __ _____ ____
+|  \/  |_   _|  _ \
+| |\/| | | | | | | |
+| |  | | | | | |_| |
+|_|  |_| |_| |____/
+
+Application: ${mtd.name}
+Version:     ${mtd.version}
+Spring Boot: ${spring-boot.version}

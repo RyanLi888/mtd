@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "record_type": "periodic_random_observation",
+  "timestamp": "2026-07-02T22:34:11.348333+00:00",
+  "result": "normal",
+  "is_abnormal": false,
+  "note": "Periodic random probe; does not change formal alert policy.",
+  "pid": 1007,
+  "process_name": "systemd-logind",
+  "process_user": "root",
+  "exe_path": "/usr/lib/systemd/systemd-logind",
+  "exe_hash": "sha256:336b638d7851b1c6",
+  "cmdline_hash": "7f641502f855237e",
+  "verdict": "benign_or_unconfirmed",
+  "confidence": "none",
+  "visibility_mode": "none",
+  "visibility_boundary": "no_dynamic_libssl_mapping",
+  "reasons": [
+    "visibility_boundary:no_dynamic_libssl_mapping"
+  ],
+  "evidence": {
+    "compute_evidence_present": false,
+    "cpu_avg_percent": 0.0,
+    "job_marker_count": 0,
+    "submit_marker_count": 0,
+    "associated_submit_count": 0,
+    "plaintext_job_marker_count": 0,
+    "plaintext_submit_marker_count": 0,
+    "plaintext_associated_submit_count": 0,
+    "tls_job_marker_count": 0,
+    "tls_submit_marker_count": 0,
+    "tls_associated_submit_count": 0
+  },
+  "observation": {
+    "observe_duration_sec": 300,
+    "actual_observe_duration_sec": 300.0,
+    "early_confirmed": false,
+    "probe_mode": "on_demand",
+    "plaintext_probe_enabled": true,
+    "tls_probe_enabled": false,
+    "observe_skipped": false,
+    "skip_reason": ""
+  },
+  "privacy": {
+    "raw_payload_saved": false,
+    "wallet_saved": false,
+    "job_id_saved": false,
+    "nonce_saved": false,
+    "result_saved": false,
+    "blob_saved": false,
+    "full_cmdline_saved": false
+  }
+}

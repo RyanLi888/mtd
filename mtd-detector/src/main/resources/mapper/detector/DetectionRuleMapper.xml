@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mtd.detector.mapper.DetectionRuleMapper">
+    
+    <resultMap type="DetectionRule" id="DetectionRuleResult">
+        <result property="ruleId"    column="rule_id"    />
+        <result property="ruleName"    column="rule_name"    />
+        <result property="ruleContent"    column="rule_content"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectDetectionRuleVo">
+        select rule_id, rule_name, rule_content, create_time from detection_rule
+    </sql>
+
+    <select id="selectDetectionRuleList" parameterType="DetectionRule" resultMap="DetectionRuleResult">
+        <include refid="selectDetectionRuleVo"/>
+        <where>  
+            <if test="ruleName != null  and ruleName != ''"> and rule_name like concat('%', #{ruleName}, '%')</if>
+            <if test="ruleContent != null  and ruleContent != ''"> and rule_content = #{ruleContent}</if>
+        </where>
+    </select>
+    
+    <select id="selectDetectionRuleByRuleId" parameterType="Long" resultMap="DetectionRuleResult">
+        <include refid="selectDetectionRuleVo"/>
+        where rule_id = #{ruleId}
+    </select>
+
+    <insert id="insertDetectionRule" parameterType="DetectionRule" useGeneratedKeys="true" keyProperty="ruleId">
+        insert into detection_rule
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ruleName != null">rule_name,</if>
+            <if test="ruleContent != null">rule_content,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ruleName != null">#{ruleName},</if>
+            <if test="ruleContent != null">#{ruleContent},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDetectionRule" parameterType="DetectionRule">
+        update detection_rule
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="ruleName != null">rule_name = #{ruleName},</if>
+            <if test="ruleContent != null">rule_content = #{ruleContent},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where rule_id = #{ruleId}
+    </update>
+
+    <delete id="deleteDetectionRuleByRuleId" parameterType="Long">
+        delete from detection_rule where rule_id = #{ruleId}
+    </delete>
+
+    <delete id="deleteDetectionRuleByRuleIds" parameterType="String">
+        delete from detection_rule where rule_id in 
+        <foreach item="ruleId" collection="array" open="(" separator="," close=")">
+            #{ruleId}
+        </foreach>
+    </delete>
+</mapper>

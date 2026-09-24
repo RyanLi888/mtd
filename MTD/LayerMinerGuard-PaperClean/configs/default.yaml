@@ -1,0 +1,19 @@
+# LayerMinerGuard Default Configuration
+session:
+  duration_sec: 300
+  pool_port: 13000
+
+detector:
+  cpu_threshold: 30
+  delta_in_sec: 30
+  delta_out_sec: 30
+  compute_threshold_percent: 50
+  minimum_compute_samples: 3
+
+privacy:
+  raw_payload_saved: false
+  wallet_saved: false
+  job_id_saved: false
+  nonce_saved: false
+  result_saved: false
+  blob_saved: false

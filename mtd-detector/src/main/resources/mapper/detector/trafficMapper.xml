@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mtd.detector.mapper.trafficMapper">
+    
+    <resultMap type="traffic" id="trafficResult">
+        <result property="trafficId"    column="traffic_id"    />
+        <result property="sourceIp"    column="source_ip"    />
+        <result property="destinationIp"    column="destination_ip"    />
+        <result property="trafficTime"    column="traffic_time"    />
+        <result property="threatLevel"    column="threat_level"    />
+    </resultMap>
+
+    <sql id="selecttrafficVo">
+        select traffic_id, source_ip, destination_ip, traffic_time, threat_level from malicious_traffic
+    </sql>
+<!--    <select id="selectTrafficById" resultType="com.mtd.detector.domain.Traffic">-->
+<!--        SELECT * FROM traffic_table WHERE traffic_id = #{trafficId}-->
+<!--    </select>-->
+
+    <select id="selecttrafficList" parameterType="traffic" resultMap="trafficResult">
+        <include refid="selecttrafficVo"/>
+        <where>  
+            <if test="sourceIp != null  and sourceIp != ''"> and source_ip = #{sourceIp}</if>
+            <if test="trafficTime != null "> and traffic_time = #{trafficTime}</if>
+            <if test="threatLevel != null  and threatLevel != ''"> and threat_level = #{threatLevel}</if>
+        </where>
+    </select>
+    
+    <select id="selecttrafficByTrafficId" parameterType="Long" resultMap="trafficResult">
+        <include refid="selecttrafficVo"/>
+        where traffic_id = #{trafficId}
+    </select>
+
+    <insert id="inserttraffic" parameterType="traffic" useGeneratedKeys="true" keyProperty="trafficId">
+        insert into malicious_traffic
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sourceIp != null">source_ip,</if>
+            <if test="destinationIp != null">destination_ip,</if>
+            <if test="trafficTime != null">traffic_time,</if>
+            <if test="threatLevel != null">threat_level,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sourceIp != null">#{sourceIp},</if>
+            <if test="destinationIp != null">#{destinationIp},</if>
+            <if test="trafficTime != null">#{trafficTime},</if>
+            <if test="threatLevel != null">#{threatLevel},</if>
+         </trim>
+    </insert>
+
+    <update id="updatetraffic" parameterType="traffic">
+        update malicious_traffic
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sourceIp != null">source_ip = #{sourceIp},</if>
+            <if test="destinationIp != null">destination_ip = #{destinationIp},</if>
+            <if test="trafficTime != null">traffic_time = #{trafficTime},</if>
+            <if test="threatLevel != null">threat_level = #{threatLevel},</if>
+        </trim>
+        where traffic_id = #{trafficId}
+    </update>
+
+    <delete id="deletetrafficByTrafficId" parameterType="Long">
+        delete from malicious_traffic where traffic_id = #{trafficId}
+    </delete>
+
+    <delete id="deletetrafficByTrafficIds" parameterType="String">
+        delete from malicious_traffic where traffic_id in 
+        <foreach item="trafficId" collection="array" open="(" separator="," close=")">
+            #{trafficId}
+        </foreach>
+    </delete>
+</mapper>

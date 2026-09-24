@@ -1,0 +1,1 @@
+# LayerMinerGuard server tool tests

@@ -1,0 +1,4 @@
+# 使用 visudo -cf 校验后复制到 /etc/sudoers.d/mtd-monitor，并设置权限 0440。
+monitor ALL=(root) NOPASSWD: /opt/miner_detector/scripts/remediate_kill.sh [0-9]*
+monitor ALL=(root) NOPASSWD: /opt/miner_detector/scripts/remediate_ip.sh *
+monitor ALL=(root) NOPASSWD: /opt/miner_detector/scripts/remediate_isolate.sh /*

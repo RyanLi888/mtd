@@ -1,0 +1,10 @@
+processes:
+  - systemd
+  - kthreadd
+  - ksoftirqd
+  - migration
+  - sshd
+  - dockerd
+  - containerd
+
+remote_addresses: []

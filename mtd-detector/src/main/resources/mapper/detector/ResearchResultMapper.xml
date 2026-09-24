@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mtd.detector.mapper.ResearchResultMapper">
+    
+    <resultMap type="ResearchResult" id="ResearchResultResult">
+        <result property="resultId"    column="result_id"    />
+        <result property="resultName"    column="result_name"    />
+        <result property="resultContent"    column="result_content"    />
+        <result property="publishTime"    column="publish_time"    />
+    </resultMap>
+
+    <sql id="selectResearchResultVo">
+        select result_id, result_name, result_content, publish_time from research_result
+    </sql>
+
+    <select id="selectResearchResultList" parameterType="ResearchResult" resultMap="ResearchResultResult">
+        <include refid="selectResearchResultVo"/>
+        <where>  
+            <if test="resultName != null  and resultName != ''"> and result_name like concat('%', #{resultName}, '%')</if>
+            <if test="resultContent != null  and resultContent != ''"> and result_content = #{resultContent}</if>
+            <if test="publishTime != null "> and publish_time = #{publishTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectResearchResultByResultId" parameterType="Long" resultMap="ResearchResultResult">
+        <include refid="selectResearchResultVo"/>
+        where result_id = #{resultId}
+    </select>
+
+    <insert id="insertResearchResult" parameterType="ResearchResult" useGeneratedKeys="true" keyProperty="resultId">
+        insert into research_result
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="resultName != null">result_name,</if>
+            <if test="resultContent != null">result_content,</if>
+            <if test="publishTime != null">publish_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="resultName != null">#{resultName},</if>
+            <if test="resultContent != null">#{resultContent},</if>
+            <if test="publishTime != null">#{publishTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateResearchResult" parameterType="ResearchResult">
+        update research_result
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="resultName != null">result_name = #{resultName},</if>
+            <if test="resultContent != null">result_content = #{resultContent},</if>
+            <if test="publishTime != null">publish_time = #{publishTime},</if>
+        </trim>
+        where result_id = #{resultId}
+    </update>
+
+    <delete id="deleteResearchResultByResultId" parameterType="Long">
+        delete from research_result where result_id = #{resultId}
+    </delete>
+
+    <delete id="deleteResearchResultByResultIds" parameterType="String">
+        delete from research_result where result_id in 
+        <foreach item="resultId" collection="array" open="(" separator="," close=")">
+            #{resultId}
+        </foreach>
+    </delete>
+</mapper>

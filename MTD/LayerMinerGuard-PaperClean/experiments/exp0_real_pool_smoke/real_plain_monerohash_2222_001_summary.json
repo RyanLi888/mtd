@@ -1,0 +1,21 @@
+{
+  "session_id": "real_plain_monerohash_2222_001",
+  "pool_alias": "REAL_POOL_PLAINTEXT",
+  "visibility_mode": "plaintext",
+  "duration_sec": 300,
+  "xmrig_version": "6.26.0",
+  "threads": 1,
+  "job_marker_count": 15,
+  "submit_marker_count": 1,
+  "associated_submit_count": 1,
+  "hashrate_observed": true,
+  "raw_payload_saved": false,
+  "wallet_saved": false,
+  "job_id_saved": false,
+  "nonce_saved": false,
+  "result_saved": false,
+  "blob_saved": false,
+  "residual_processes": [],
+  "smoke_status": "pass",
+  "notes": "full_evidence_chain_observed"
+}

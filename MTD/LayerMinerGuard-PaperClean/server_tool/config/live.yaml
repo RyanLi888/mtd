@@ -1,0 +1,154 @@
+agent:
+  mode: manual_live
+  auto_start: false
+  background: true
+  dry_run: false
+  scan_interval_sec: 10
+  observe_duration_sec: 300
+  cooldown_sec: 600
+  require_root_for_real_probe: true
+  default_action: alert_only
+  max_runtime_observations_per_loop: 2
+
+candidate:
+  min_cpu_percent: 70
+  min_runtime_sec: 30
+  require_network: true
+  max_candidates_per_scan: 10
+  ignore_kernel_threads: true
+  min_consecutive_hits: 2
+  state_ttl_sec: 900
+  require_strong_observation_signal: true
+  observe_network_only_candidates: false
+  ignore_system_services: true
+  ignore_service_users:
+    - root
+    - systemd-network
+    - systemd-resolve
+    - messagebus
+    - avahi
+  whitelist_names:
+    - systemd
+    - sshd
+    - dockerd
+    - containerd
+    - NetworkManager
+    - dbus-daemon
+    - systemd-journald
+    - systemd-udevd
+    - systemd-oomd
+    - systemd-resolved
+    - systemd-timesyncd
+    - VGAuthService
+    - vmtoolsd
+    - acpid
+    - avahi-daemon
+    - rsyslogd
+    - cron
+    - crond
+    - snapd
+    - polkitd
+    - accounts-daemon
+    - ModemManager
+    - udisksd
+    - upowerd
+    - packagekitd
+    - unattended-upgrade
+    - cups-browsed
+    - cupsd
+    - nginx
+    - apache2
+    - mysql
+    - mysqld
+    - postgres
+    - redis-server
+  whitelist_paths:
+    - /usr/lib/systemd/
+    - /lib/systemd/
+    - /usr/sbin/
+    - /usr/libexec/
+
+observer:
+  probe_mode: on_demand
+  early_confirm:
+    enabled: true
+    check_interval_sec: 5
+    min_job_markers: 1
+    min_submit_markers: 1
+    min_associated_submits: 1
+    require_compute_evidence: true
+    stop_probe_on_confirm: true
+  enable_plaintext_probe: true
+  enable_tls_probe: true
+  enable_cpu_telemetry: true
+  dry_run_only: false
+  max_concurrent_observations: 1
+  max_prefix_bytes: 384
+  plaintext_probe_duration_sec: 300
+  tls_probe_duration_sec: 300
+  probe_timeout_sec: 360
+
+verdict:
+  require_compute_evidence: true
+  compute_cpu_threshold_percent: 30
+  confirmed_require_job: true
+  confirmed_require_submit: true
+  confirmed_require_association: true
+  suspicious_allow_job_only: true
+
+alert_policy:
+  emit_confirmed_alerts: true
+  emit_protocol_suspicious_alerts: false
+  emit_fallback_suspicious_alerts: false
+  write_all_observations: true
+  alert_severity_confirmed: high
+  alert_severity_suspicious: medium
+
+console:
+  alert_repeat_count: 3
+  alert_repeat_interval_sec: 1
+  terminal_bell: true
+  warning_log: /var/log/layerminer/warnings.log
+  display_timezone: Asia/Shanghai
+  show_last_alert_in_summary: true
+
+privacy:
+  save_raw_payload: false
+  save_wallet: false
+  save_job_id: false
+  save_nonce: false
+  save_result: false
+  save_blob: false
+  save_full_cmdline: false
+  save_remote_endpoint_raw: false
+
+output:
+  log_dir: /var/log/layerminer
+  state_dir: /var/lib/layerminer
+  result_dir: results
+  pid_file: results/layerminerd.pid
+  daemon_log: results/layerminerd.log
+  alerts_jsonl: /var/log/layerminer/alerts.jsonl
+  candidate_state_json: /var/lib/layerminer/candidate_state.json
+  observation_dir: /var/lib/layerminer/observations
+
+random_observer:
+  enabled: true
+  interval_sec: 1800
+  run_at_start: true
+  probe_duration_sec: 300
+  probe_timeout_sec: 360
+  include_kernel_threads: false
+  include_self: false
+  exclude_names:
+    - layerminerd.py
+    - plaintext_stratum_probe.py
+    - tls_openssl_probe.py
+  retention_keep_days: 30
+  retention_trigger_days: 40
+
+traffic_alerts:
+  enabled: true
+  filename: traffic_alerts.jsonl
+  save_endpoint_raw: true
+  max_connections: 8
