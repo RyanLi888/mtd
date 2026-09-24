@@ -7,10 +7,7 @@ const crypto = require('crypto')
 const DEFAULT_CONFIG = {
   servers: [],
   detection: {
-    pythonPath: '/opt/miner_detector/.venv/bin/python',
     scriptPath: '/opt/miner_detector/detector.py',
-    quickMode: '--mode=quick',
-    fullMode: '--mode=full',
     timeout: 30,
     streamLogPath: '/opt/miner_detector/data/logs/stream.log'
   },
@@ -136,21 +133,6 @@ class ConfigStore {
     this.data.servers = this.data.servers.filter(item => item.id !== serverId)
     if (this.data.servers.length !== before) this.save()
     return this.data.servers.length !== before
-  }
-
-  appendAlarm(alarm) {
-    this.data.alarms.unshift(alarm)
-    this.data.alarms = this.data.alarms.slice(0, 1000)
-    this.save()
-  }
-
-  listAlarms(filters = {}) {
-    return this.data.alarms.filter(alarm => {
-      if (filters.serverId && alarm.serverId !== filters.serverId) return false
-      if (filters.level && alarm.level !== filters.level) return false
-      if (filters.status && alarm.status !== filters.status) return false
-      return true
-    })
   }
 
   getSettings() {

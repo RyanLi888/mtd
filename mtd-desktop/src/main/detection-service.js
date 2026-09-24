@@ -1,19 +1,6 @@
 'use strict'
 
-function toNumber(value, fallback = 0) {
-  const number = Number(value)
-  return Number.isFinite(number) ? number : fallback
-}
-
-function normalizeLevel(value) {
-  const text = String(value === undefined || value === null ? '' : value).toLowerCase()
-  if (['critical', 'high', 'medium', 'low', 'safe'].includes(text)) return text
-  if (text === '3') return 'critical'
-  if (text === '2') return 'high'
-  if (text === '1') return 'medium'
-  if (text === '0') return 'low'
-  return text || 'unknown'
-}
+const { toNumber, normalizeLevel } = require('./result-utils')
 
 class DetectionService {
   constructor(configStore, sshManager, broadcast) {
@@ -21,7 +8,6 @@ class DetectionService {
     this.sshManager = sshManager
     this.broadcast = broadcast || (() => {})
     this.timers = new Map()
-    this.running = new Set()
     this.activeRuns = new Map()
     this.latestCpu = new Map()
     this.latestTraffic = new Map()
@@ -82,10 +68,8 @@ class DetectionService {
   runExclusive(key, task) {
     const existing = this.activeRuns.get(key)
     if (existing) return existing
-    this.running.add(key)
     const promise = (async () => task())()
       .finally(() => {
-        this.running.delete(key)
         this.activeRuns.delete(key)
       })
     this.activeRuns.set(key, promise)

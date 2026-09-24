@@ -4,6 +4,7 @@ const fs = require('fs')
 const net = require('net')
 const path = require('path')
 const { Client } = require('ssh2')
+const { toNumber, normalizeLevel } = require('./result-utils')
 const { cpuResultPathOf, trafficAlertPathOf, randomObservationPathOf } = require('./config-store')
 
 const MAX_OUTPUT_BYTES = 2 * 1024 * 1024
@@ -32,11 +33,6 @@ function firstValue(source, keys, fallback = '') {
   return fallback
 }
 
-function toNumber(value, fallback = 0) {
-  const number = Number(value)
-  return Number.isFinite(number) ? number : fallback
-}
-
 function normalizeEpoch(value) {
   const number = Number(value)
   if (!Number.isFinite(number) || number <= 0) return ''
@@ -49,16 +45,6 @@ function pickArray(source, keys) {
     if (Array.isArray(value)) return value
   }
   return []
-}
-
-function normalizeLevel(value) {
-  const text = String(value === undefined || value === null ? '' : value).toLowerCase()
-  if (['critical', 'high', 'medium', 'low', 'safe'].includes(text)) return text
-  if (text === '3') return 'critical'
-  if (text === '2') return 'high'
-  if (text === '1') return 'medium'
-  if (text === '0') return 'low'
-  return text || 'unknown'
 }
 
 function toBoolean(value, fallback = false) {
@@ -423,17 +409,6 @@ class SshManager {
     const sourcePath = randomObservationPathOf(server)
     const raw = await this.readRemoteJsonDirectory(serverId, sourcePath, '随机探测结果')
     return normalizeRandomObservations(raw, server, sourcePath)
-  }
-
-  async runDetection(serverId, mode = 'traffic') {
-    if (mode === 'cpu') return this.readCpuResult(serverId)
-    if (mode === 'traffic') return this.readTrafficAlerts(serverId)
-    if (mode === 'random') return this.readRandomObservations(serverId)
-    return {
-      cpu: await this.readCpuResult(serverId),
-      traffic: await this.readTrafficAlerts(serverId),
-      random: await this.readRandomObservations(serverId)
-    }
   }
 
   async remediate(serverId, request) {

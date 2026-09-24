@@ -217,7 +217,7 @@
                 <version>${mtd.version}</version>
             </dependency>
 
-            <!-- 商家管理 -->
+            <!-- 挖矿检测业务 -->
             <dependency>
                 <groupId>com.mtd</groupId>
                 <artifactId>mtd-detector</artifactId>

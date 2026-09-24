@@ -1,5 +1,0 @@
-2026-06-24 15:12:45.776766+08:00 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "BINARY LARGE OBJECT to CHARACTER"; SQL statement:
-select notice_id, notice_title, notice_type, cast(notice_content as char) as notice_content, status, create_by, create_time, update_by, update_time, remark 
-		from sys_notice
- LIMIT ? [22018-224]

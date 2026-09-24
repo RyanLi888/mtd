@@ -1,3 +1,0 @@
-2026-06-24 10:09:29.655625+08:00 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "insert into sys_job values(2, '系统默认（有参）', 'DEFAULT', 'systemTask.withParams(\\'mtd[*]\\')', '0/15 * * * * ?', '3', '1', '1', 'admin', CURRENT_TIMESTAMP, '', null, '')"; SQL statement:
-insert into sys_job values(2, '系统默认（有参）', 'DEFAULT', 'systemTask.withParams(\'mtd\')', '0/15 * * * * ?', '3', '1', '1', 'admin', CURRENT_TIMESTAMP, '', null, '') [42000-224]

@@ -3,8 +3,6 @@ package com.mtd.detector.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mtd.common.core.domain.model.LoginUser;
-import com.mtd.common.utils.ServletUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,8 +36,6 @@ public class trafficController extends BaseController
     @Autowired
     private ItrafficService trafficService;
 
-//    @Autowired
-//    private TokenService tokenService;
     /**
      * 查询恶意流量信息列表
      */
@@ -61,8 +57,6 @@ public class trafficController extends BaseController
         ExcelUtil<traffic> util = new ExcelUtil<traffic>(traffic.class);
         List<traffic> trafficList = util.importExcel(file.getInputStream());
 
-//        LoginUser loginUser = tokenService.getLoginUser(ServletUtils.getRequest());
-//        String operName = loginUser.getUsername();
         String operName = getUsername();
         String message = trafficService.importTraffic(trafficList, updateSupport, operName);
         return AjaxResult.success(message);

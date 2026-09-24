@@ -44,6 +44,12 @@ mtd-desktop/resources/generated/
 *.swp
 __pycache__/
 *.py[cod]
+.venv/
+.pytest_cache/
+/.tmp-*/
+*.mv.db
+*.trace.db
+*.pid
 
 !*/build/*.java
 !*/build/*.html

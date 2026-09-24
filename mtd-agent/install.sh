@@ -23,4 +23,4 @@ chmod 0750 "$INSTALL_DIR/detector.py" "$INSTALL_DIR/scripts"/*.sh
 chown -R "$MONITOR_USER:$MONITOR_USER" "$INSTALL_DIR"
 
 echo "MTD 检测代理已安装到 $INSTALL_DIR"
-echo "请按 README.md 配置 SSH 公钥和 /etc/sudoers.d/mtd-monitor"
+echo "请按仓库根目录 README.md 的 Linux 检测组件说明配置 SSH 公钥和 /etc/sudoers.d/mtd-monitor"
